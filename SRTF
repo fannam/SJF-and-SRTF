@@ -1,0 +1,42 @@
+#include<stdio.h>
+int main()
+{
+ int arivalTime[10],burstTime[10],remainTime[10],endTime;
+ int remain=0,time,totalWaitTime=0,totalTurnAroundTime=0;
+ int n,i, smallest;
+ printf("Enter no of Processes : ");
+ scanf("%d",&n);
+ for(i=0;i<n;i++)
+ {
+	printf("Enter arrival time for Process P%d : ",i+1);
+	scanf("%d",&arivalTime[i]);
+ 	printf("Enter burst time for Process P%d : ",i+1);
+ 	scanf("%d",&burstTime[i]);
+ 	remainTime[i]=burstTime[i];
+ }
+ printf("\n\nProcess\t|Turnaround Time| Waiting Time\n\n");
+ remainTime[9]=9999;
+ for(time=0;remain!=n;time++)
+ {
+ 	smallest=9;
+ 	for(i=0;i<n;i++)
+ 	{
+ 		if(arivalTime[i]<=time && remainTime[i]<remainTime[smallest] && remainTime[i]>0)
+ 		{
+ 			smallest=i;
+ 		}
+ 	}
+ 	remainTime[smallest]--;
+ 	if(remainTime[smallest]==0)
+ 	{
+ 		remain++;
+ 		endTime=time+1;
+ 		printf("\nP[%d]\t|\t%d\t|\t%d",smallest+1,endTime- arivalTime [smallest],endTime-burstTime[smallest]- arivalTime [smallest]);
+ 		totalWaitTime+=endTime-burstTime[smallest]- arivalTime [smallest];
+ 		totalTurnAroundTime+=endTime- arivalTime [smallest];
+ 	}
+ }
+ printf("\n\nAverage waiting time = %f\n",totalWaitTime*1.0/n);
+ printf("Average Turnaround time = %f",totalTurnAroundTime*1.0/5);
+ return 0;
+}
